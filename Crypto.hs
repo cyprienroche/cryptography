@@ -69,10 +69,10 @@ genKeys p q =((e, n), (d, n))
 
 -- RSA encryption/decryption; (e, n) is the public key
 rsaEncrypt :: Int -> (Int, Int) -> Int
-rsaEncrypt m (e, n) = error "TODO: implement rsaEncrypt"
+rsaEncrypt m (e, n) = modPow m e n
 
 rsaDecrypt :: Int -> (Int, Int) -> Int
-rsaDecrypt = error "TODO: implement rsaDecrypt"
+rsaDecrypt = rsaEncrypt
 
 
 -------------------------------------------------------------------------------
@@ -80,19 +80,25 @@ rsaDecrypt = error "TODO: implement rsaDecrypt"
 
 -- Returns position of a letter in the alphabet
 toInt :: Char -> Int
-toInt a = error "TODO: implement toInt"
+toInt a = ord a - ord 'a'
 
 -- Returns the n^th letter
 toChar :: Int -> Char
-toChar n = error "TODO: implement toChar"
+toChar n = chr (n + ord 'a')
 
 -- "adds" two letters
 add :: Char -> Char -> Char
-add a b = error "TODO: implement add"
+add a b = toChar (mod c m)
+  where
+    c = toInt a + toInt b
+    m = toInt 'z' + 1
 
 -- "substracts" two letters
 substract :: Char -> Char -> Char
-substract a b = error "TODO: implement substract"
+substract a b  = toChar (mod c m)
+  where
+    c = toInt a - toInt b
+    m = toInt 'z' + 1
 
 -- the next functions present
 -- 2 modes of operation for block ciphers : ECB and CBC
@@ -101,17 +107,25 @@ substract a b = error "TODO: implement substract"
 -- ecb (electronic codebook) with block size of a letter
 --
 ecbEncrypt :: Char -> String -> String
-ecbEncrypt key m = error "TODO: implement ecbEncrypt"
+ecbEncrypt key m = map (add key) m
+
 
 ecbDecrypt :: Char -> String -> String
-ecbDecrypt key m = error "TODO: implement ecbDecrypt"
+ecbDecrypt key m = map (flip substract key) m
 
 -- cbc (cipherblock chaining) encryption with block size of a letter
 -- initialisation vector iv is a letter
 -- last argument is message m as a string
 --
 cbcEncrypt :: Char -> Char -> String -> String
-cbcEncrypt key iv m = error "TODO: implement cbcEncrypt"
+cbcEncrypt key iv []       = []
+cbcEncrypt key iv (m : ms) = c : cbcEncrypt key c ms
+  where
+    c = add key (add m iv)
+
 
 cbcDecrypt :: Char -> Char -> String -> String
-cbcDecrypt key iv m = error "TODO: implement cbcDecrypt"
+cbcDecrypt key iv [] = []
+cbcDecrypt key iv (m : ms) = c : cbcDecrypt key m ms
+  where
+    c = substract (substract m key) iv
