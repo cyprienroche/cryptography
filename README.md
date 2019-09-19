@@ -20,9 +20,9 @@ Run the following command once in the project directory
 ghci Crypto.hs
 ```
 
-### Available functions
+## Available functions
 
-#### Public key encryption: RSA
+### Public key encryption: RSA
 rsaEncrypt takes two parameters; an *Int* to be encrypted and a tuple which is the *key*. rsaDecrypt is the same and decrypts the encrypted *Int*. To generate a pair of keys, use the genKeys function which given two distinct prime numbers runs the RSA key generation algorithm and returns a key pair.
 
 ```
@@ -36,7 +36,7 @@ rsaEncrypt takes two parameters; an *Int* to be encrypted and a tuple which is t
 10
 ```
 
-#### Symmetric Encryption
+### Symmetric Encryption
 
 ecbEncrypt takes two parameters; a character which is the *key* and a *message* as a String. It moves every letter down the alphabet by a certain amount determined by the *key*. ecbDecrypt is the same and decrypts the encrypted *message*.
 
