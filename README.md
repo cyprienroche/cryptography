@@ -1,4 +1,4 @@
-# Project Title
+# cryptography
 
 A Haskell implementation of a widely-used public key encryption algorithm and a symmetric key algorithm.
 
